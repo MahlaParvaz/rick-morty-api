@@ -7,9 +7,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 function App() {
-  const [cahracters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,16 +35,25 @@ function App() {
     fetchData();
   }, [query]);
 
+  const handleSelectCharacter = (id) => {
+    setSelectedId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
     <div className="app">
       <Toaster />
       <Navbar>
         <Search query={query} setQuery={setQuery} />
-        <SearchResult numOfResult={cahracters.length} />
+        <SearchResult numOfResult={characters.length} />
       </Navbar>
-      <Main cahracters={cahracters}>
-        <CharacterList cahracters={cahracters} isLoading={isLoading} />
-        <CharactersDetail />
+      <Main characters={characters}>
+        <CharacterList
+          selectedId={selectedId}
+          characters={characters}
+          isLoading={isLoading}
+          onSelectCharacter={handleSelectCharacter}
+        />
+        <CharactersDetail selectedId={selectedId} />
       </Main>
     </div>
   );

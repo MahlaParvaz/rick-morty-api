@@ -1,5 +1,4 @@
 import { ArrowUpCircleIcon } from '@heroicons/react/24/outline';
-import { episodes } from '../../Data/Data';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loader from './Loader';
@@ -46,7 +45,9 @@ const CharactersDetail = ({ selectedId, onAddFavourite, isFavouriteAdded }) => {
 
   if (!character || !selectedId) {
     return (
-      <div style={{ flex: 1, color: 'var(--slate-300)' }}>Please select a character</div>
+      <div style={{ flex: 1, color: 'var(--slate-300)' }}>
+        Please select a character
+      </div>
     );
   }
   return (
@@ -66,14 +67,20 @@ export default CharactersDetail;
 function CharacterSubInfo({ character, isFavouriteAdded, onAddFavourite }) {
   return (
     <div className="character-detail">
-      <img src={character.image} alt={character.name} className="character-detail__img" />
+      <img
+        src={character.image}
+        alt={character.name}
+        className="character-detail__img"
+      />
       <div className="character-detail__info">
         <h3 className="name">
           <span>{character.gender === 'Male' ? '' : ''}</span>
           <span>&nbsp;{character.name}</span>
         </h3>
         <div className="info">
-          <span className={`status ${character.status === 'Dead' ? 'red' : ''}`}></span>
+          <span
+            className={`status ${character.status === 'Dead' ? 'red' : ''}`}
+          ></span>
           <span>&nbsp;{character.status}</span>
           <span>&nbsp; - {character.species}</span>
         </div>

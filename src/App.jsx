@@ -5,49 +5,26 @@ import Navbar, { Favourites, Search, SearchResult } from './components/Navbar';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
+import useCharacters from './hooks/useCharacter';
+import useLocalStorage from './hooks/useLocalStorage';
 function App() {
-  const [characters, setCharacters] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [count, setCount] = useState(0);
   const [query, setQuery] = useState('');
-  const [selectedId, setSelectedId] = useState(null);
-  const [favourites, setFavourites] = useState(
-    () => JSON.parse(localStorage.getItem('FAVOURITES')) || []
+  const { characters, isLoading } = useCharacters(
+    'https://rickandmortyapi.com/api/character/?name',
+    query
   );
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(
-          `https://rickandmortyapi.com/api/character/?name=${query}`,
-          { signal }
-        );
-        setCharacters(data.results.slice(0, 5));
-      } catch (err) {
-        // console.log(err.response.data.error);
-        if (!axios.isCancel()) {
-          setCharacters([]);
-          toast.error(err.response.data.error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    // if (query.length < 3) {
-    //   setCharacters([]);
-    //   return;
-    // }
-    fetchData();
-    return () => {
-      controller.abort();
-    };
-  }, [query]);
+  const [selectedId, setSelectedId] = useState(null);
+  const [favourites, setFavourites] = useLocalStorage('FAVOURITES', []);
 
   useEffect(() => {
-    localStorage.setItem('FAVOURITES', JSON.stringify(favourites));
-  }, [favourites]);
+    const interval = setInterval(() => setCount((c) => c + 1), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [count]);
+
   const handleSelectCharacter = (id) => {
     setSelectedId((prevId) => (prevId === id ? null : id));
   };
@@ -65,7 +42,10 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={characters.length} />
-        <Favourites favourites={favourites} onDeleteFavourite={handleDeleteFavourite} />
+        <Favourites
+          favourites={favourites}
+          onDeleteFavourite={handleDeleteFavourite}
+        />
       </Navbar>
       <Main characters={characters}>
         <CharacterList

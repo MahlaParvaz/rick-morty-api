@@ -14,7 +14,6 @@ const CharactersDetail = ({ selectedId, onAddFavourite, isFavouriteAdded }) => {
     async function fetchData() {
       try {
         setIsLoading(true);
-        // setCharacter(null);
 
         const { data } = await axios.get(
           ` https://rickandmortyapi.com/api/character/${selectedId}`

@@ -1,3 +1,11 @@
+#Demo
+
+https://github.com/MahlaParvaz/rick-morty-api/assets/107788139/8f995411-b8e7-41bb-ba09-0a34262d6d9d
+![rick-output-1](https://github.com/MahlaParvaz/rick-morty-api/assets/107788139/f181bdcf-0c2e-4e97-9f5f-4ca38e6771a6)
+
+
+![rick-output-2](https://github.com/MahlaParvaz/rick-morty-api/assets/107788139/1eca7fc1-1674-4193-8340-24c6e430eff5)
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
